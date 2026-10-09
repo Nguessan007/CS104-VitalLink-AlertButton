@@ -1,10 +1,19 @@
-
+import os
 import requests
 import time
 import RPi.GPIO as GPIO
+from dotenv import load_dotenv
 
-BOT_TOKEN = "8568791949:AAFstA7Q2jJQJZCmx3pEitu6yGeiPtZIaZc"
-CHAT_ID = "6993827186"
+load_dotenv("/home/ensign/alert_button/.env")
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+
+if not BOT_TOKEN or not CHAT_ID:
+    raise ValueError("BOT_TOKEN or CHAT_ID is missing from .env")
+
+
+TELEGRAM_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
